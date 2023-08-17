@@ -6,4 +6,5 @@
 ile Scripti Başka Yerlerde Kullanabilirsiniz.
 
 • loadingTime : Bar'ın Açık Kalacağı Süre, int değerdir.
+
 • loadingText : Barda Yazılacak Değerdir.
