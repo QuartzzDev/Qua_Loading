@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #loading-bar {
+            width: 38px; /* Biraz daha küçük genişlik */
+            height: 38px; /* Biraz daha küçük yükseklik */
+            position: absolute;
+            top: 85%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            border: 5px solid #ddb40f; /* Biraz daha ince kenar */ 
+            border-top: 5px solid transparent; /* Biraz daha ince üst kenar */
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #progress {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            border-radius: 50%;
+            transform-origin: center bottom;
+        }
+
+        #loading-text {
+            position: fixed;
+            top: 84%;
+            left: 46.5%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px; /* Biraz daha küçük yazı boyutu */
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .fade-in {
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-bar">
+        <div id="progress"></div>
+    </div>
+    <div id="loading-text"></div>
+
+    <script>
+        let loadingBar = document.getElementById("loading-bar");
+        let loadingText = document.getElementById("loading-text");
+
+        window.addEventListener("message", (event) => {
+            if (event.data.type === "show_loading_bar") {
+                let time = event.data.time * 1000;
+                let animation = event.data.animation;
+                let text = event.data.text;
+
+                loadingBar.style.animation = animation;
+                loadingBar.style.animationDuration = time + "ms";
+                loadingText.innerText = text;
+
+                loadingBar.classList.add("fade-in");
+
+                setTimeout(() => {
+                    loadingBar.classList.remove("fade-in");
+                    loadingText.innerText = "";
+                }, time);
+
+            }
+        });
+    </script>
+</body>
+</html>
